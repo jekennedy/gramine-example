@@ -7,8 +7,7 @@ current spot price of gold vs USD, and prints that to the console.
 # Quick Start
 
 1. Go to goldapi.io and get an API key
-(from this project's root directory:)
-2. Update src/main.rs with your API key
+2. (from this project's root directory) Update src/main.rs with your API key
 3. run ```make build``` and ```make manifest```
 4. run ```gramine-direct gold_price_checker```
 
