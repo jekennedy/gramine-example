@@ -1,0 +1,45 @@
+[loader]
+entrypoint = "file:/usr/lib/x86_64-linux-gnu/gramine/libsysdb.so"
+log_level = "error"
+insecure__use_host_env = true
+
+[loader.env]
+DNS_SERVER_1 = "8.8.8.8"
+DNS_SERVER_2 = "8.8.4.4"
+LD_LIBRARY_PATH = "/lib:/lib64:/usr/lib64:/usr/lib/x86_64-linux-gnu"
+
+[libos]
+entrypoint = "/gold_price_checker"
+
+[sys]
+insecure__allow_eventfd = true
+enable_extra_runtime_domain_names_conf = true
+
+[fs]
+mounts = [
+    { path = "/etc/ssl/certs", uri = "file:/etc/ssl/certs" },
+    { path = "/lib", uri = "file:/usr/lib/x86_64-linux-gnu/gramine/runtime/glibc" },
+    { path = "/usr/lib/x86_64-linux-gnu", uri = "file:/usr/lib/x86_64-linux-gnu" },
+    { path = "/gold_price_checker", uri = "file:target/release/gold_price_checker" },
+]
+
+[sgx]
+debug = false
+edmm_enable = false
+trusted_files = [
+    { uri = "file:/usr/lib/x86_64-linux-gnu/gramine/libsysdb.so" },
+    { uri = "file:gold_price_checker" },
+    { uri = "file:/usr/lib/x86_64-linux-gnu/gramine/runtime/glibc/" },
+]
+max_threads = 4
+isvprodid = 0
+isvsvn = 0
+remote_attestation = "none"
+require_avx = false
+require_avx512 = false
+require_mpx = false
+require_pkru = false
+require_amx = false
+require_exinfo = false
+enable_stats = false
+enclave_size = "256M"

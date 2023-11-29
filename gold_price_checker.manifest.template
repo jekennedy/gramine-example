@@ -1,0 +1,29 @@
+# Gold Price Checker manifest file example
+
+loader.entrypoint = "file:{{ gramine.libos }}"
+libos.entrypoint = "/gold_price_checker"
+loader.log_level = "error"
+loader.env.DNS_SERVER_1 = "8.8.8.8"
+loader.env.DNS_SERVER_2 = "8.8.4.4"
+loader.env.LD_LIBRARY_PATH = "/lib:/lib64:/usr/lib64:/usr/lib/x86_64-linux-gnu"
+loader.insecure__use_host_env = true 
+
+sys.insecure__allow_eventfd = true
+sys.enable_extra_runtime_domain_names_conf = true
+
+fs.mounts = [
+  { path = "/etc/ssl/certs", uri = "file:/etc/ssl/certs" },
+  { path = "/lib", uri = "file:{{ gramine.runtimedir() }}" },
+  { path = "/usr/lib/x86_64-linux-gnu", uri = "file:/usr/lib/x86_64-linux-gnu" },
+  { path = "/gold_price_checker", uri = "file:target/release/gold_price_checker" },
+]
+
+sgx.debug = false 
+sgx.edmm_enable = {{ 'true' if env.get('EDMM', '0') == '1' else 'false' }}
+
+sgx.trusted_files = [
+  "file:{{ gramine.libos }}",
+  "file:gold_price_checker",
+  "file:{{ gramine.runtimedir() }}/",
+]
+
